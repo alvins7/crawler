@@ -19,8 +19,12 @@ namespace crawler
             {
                 abAsync.Post(i);
             }
-
+            //终止线程任务
+            abAsync.Complete();
             Console.WriteLine("Post finished");
+            //等待任务结束
+            abAsync.Completion.Wait();
+            Console.WriteLine("Process finished");
         }
         /// <summary>
         /// dataflow开始
@@ -40,7 +44,7 @@ namespace crawler
             }
         }, new ExecutionDataflowBlockOptions() { MaxDegreeOfParallelism = TheadNum });
         /// <summary>
-        /// 发起网络请求
+        /// 发起GET请求
         /// </summary>
         private static void SendAsync1()
         {
@@ -51,7 +55,7 @@ namespace crawler
             Console.WriteLine(data);
         }
         /// <summary>
-        /// 添加头部信息
+        /// 添加请求头信息
         /// </summary>
         /// <param name="httpClient"></param>
         private static void AddDefaultHeaders(HttpClient httpClient)
